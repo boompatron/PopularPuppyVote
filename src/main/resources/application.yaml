@@ -1,1 +1,30 @@
-
+spring:
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    generate-ddl: false
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate.format_sql: true
+  profiles:
+    include: db
+  mvc:
+    path-match:
+      matching-strategy: ant_path_matcher
+  sql:
+    init:
+      platform: MySQL
+#      schema-locations: classpath:db/schema.sql
+      encoding: UTF-8
+      mode: never
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        type:
+#          descriptor:
+#            sql:
+#              BasicBinder: TRACE
