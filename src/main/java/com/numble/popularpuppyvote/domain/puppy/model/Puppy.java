@@ -29,11 +29,14 @@ public class Puppy extends BaseTimeEntity {
 
 	private String description;
 
+	private Integer likeCount;
+
 	@Builder
 	public Puppy(Long id, String name, String imageUrl, String description) {
 		this.id = id;
 		this.name = name;
 		this.imageUrl = imageUrl;
 		this.description = description;
+		this.likeCount = 0;
 	}
 }
