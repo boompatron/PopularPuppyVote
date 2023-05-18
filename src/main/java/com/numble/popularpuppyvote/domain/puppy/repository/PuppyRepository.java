@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.numble.popularpuppyvote.domain.puppy.model.Puppy;
 
 @Repository
-public interface puppyRepository extends JpaRepository<Puppy, Long> {
+public interface PuppyRepository extends JpaRepository<Puppy, Long> {
 }
-성
