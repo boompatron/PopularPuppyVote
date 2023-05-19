@@ -33,4 +33,8 @@ public class Likes extends BaseTimeEntity {
 		this.puppyId = puppyId;
 		this.isDeleted = false;
 	}
+
+	public void delete(){
+		this.isDeleted = true;
+	}
 }

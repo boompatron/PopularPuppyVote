@@ -2,6 +2,8 @@ package com.numble.popularpuppyvote.domain.likes.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,5 +26,12 @@ public class LikesController {
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public ResponseEntity<LikesRegisterResponse> registerLikes(@RequestBody LikesRegisterRequest request){
 		return new ResponseEntity<>(likesService.registerLikes(request), HttpStatus.CREATED);
+	}
+
+	@PatchMapping("/{likesId}")
+	@ResponseStatus(code = HttpStatus.OK)
+	public ResponseEntity<Void> deleteLikes(@PathVariable Long likesId){
+		likesService.deleteLikes(likesId);
+		return ResponseEntity.ok().build();
 	}
 }
