@@ -14,10 +14,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.numble.popularpuppyvote.domain.puppy.dto.request.PuppyCreateRequest;
-import com.numble.popularpuppyvote.domain.puppy.dto.response.PuppyCreateResponse;
-import com.numble.popularpuppyvote.domain.puppy.model.Puppy;
-import com.numble.popularpuppyvote.domain.puppy.repository.PuppyRepository;
+import com.numble.popularpuppyvote.domain.dto.request.PuppyCreateRequest;
+import com.numble.popularpuppyvote.domain.dto.response.PuppyCreateResponse;
+import com.numble.popularpuppyvote.domain.model.Puppy;
+import com.numble.popularpuppyvote.domain.repository.PuppyRepository;
+import com.numble.popularpuppyvote.domain.service.PuppyService;
 
 @DisplayName("PuppyServiceTest 에서")
 @ExtendWith(MockitoExtension.class)
