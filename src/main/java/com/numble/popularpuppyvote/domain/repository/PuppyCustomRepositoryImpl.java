@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 
 import com.numble.popularpuppyvote.domain.model.Puppy;
-import com.numble.popularpuppyvote.domain.puppy.model.QPuppy;
+import com.numble.popularpuppyvote.domain.model.QPuppy;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
