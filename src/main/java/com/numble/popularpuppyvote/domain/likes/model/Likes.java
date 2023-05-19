@@ -25,9 +25,12 @@ public class Likes extends BaseTimeEntity {
 
 	private Long puppyId;
 
+	boolean isDeleted;
+
 	@Builder
 	public Likes(Long id, Long puppyId) {
 		this.id = id;
 		this.puppyId = puppyId;
+		this.isDeleted = false;
 	}
 }
