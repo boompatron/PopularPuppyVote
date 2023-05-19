@@ -39,4 +39,12 @@ public class Puppy extends BaseTimeEntity {
 		this.description = description;
 		this.likeCount = 0;
 	}
+
+	public void updateImageUrl(String imageUrl){
+		this.imageUrl = imageUrl;
+	}
+
+	public void updateDescription(String description){
+		this.description = description;
+	}
 }

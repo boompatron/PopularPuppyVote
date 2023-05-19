@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.numble.popularpuppyvote.domain.puppy.dto.request.PuppyCreateRequest;
-import com.numble.popularpuppyvote.domain.puppy.dto.response.PuppyListGetResponse;
 import com.numble.popularpuppyvote.domain.puppy.dto.response.PuppyCreateResponse;
 import com.numble.popularpuppyvote.domain.puppy.dto.response.PuppyGetResponse;
+import com.numble.popularpuppyvote.domain.puppy.dto.response.PuppyListGetResponse;
+import com.numble.popularpuppyvote.domain.puppy.dto.response.PuppyUpdateResponse;
 import com.numble.popularpuppyvote.domain.puppy.model.Puppy;
 
 public class PuppyMapper {
@@ -40,5 +41,10 @@ public class PuppyMapper {
 		}
 
 		return new PuppyListGetResponse(puppyresponses, lastId);
+	}
+
+
+	public static PuppyUpdateResponse toPuppyUpdateResponse(Puppy puppy){
+		return new PuppyUpdateResponse(puppy.getId());
 	}
 }
