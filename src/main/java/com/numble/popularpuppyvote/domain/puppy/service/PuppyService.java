@@ -41,6 +41,11 @@ public class PuppyService {
 		return toPuppyUpdateResponse(puppyRepository.save(puppy));
 	}
 
+	@Transactional
+	public void deletePuppy(Long puppyId){
+		puppyRepository.deleteById(puppyId);
+	}
+
 	private Puppy getEntity(Long id) {
 		return puppyRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException(String.format(ENTITY_NOT_FOUND.name(), PUPPY.name())));
