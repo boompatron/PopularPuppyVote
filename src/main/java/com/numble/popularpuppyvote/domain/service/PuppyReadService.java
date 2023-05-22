@@ -13,7 +13,10 @@ import javax.persistence.EntityNotFoundException;
 
 import org.springframework.stereotype.Service;
 
+import com.numble.popularpuppyvote.domain.dto.request.EnhancedPuppyListGetRequest;
+import com.numble.popularpuppyvote.domain.dto.request.PuppyFilteredListGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyListGetRequest;
+import com.numble.popularpuppyvote.domain.dto.request.PuppySortedListGetRequest;
 import com.numble.popularpuppyvote.domain.dto.response.PuppyListGetResponse;
 import com.numble.popularpuppyvote.domain.dto.response.PuppyGetResponse;
 import com.numble.popularpuppyvote.domain.model.Puppy;
@@ -28,15 +31,43 @@ public class PuppyReadService {
 	private final PuppyRepository puppyRepository;
 
 	@Transactional(readOnly = true)
-	public PuppyGetResponse getOnePuppy(Long puppyId){
+	public PuppyGetResponse getOnePuppy(Long puppyId) {
 		return toPuppyGetResponse(getEntity(puppyId));
 	}
 
-
 	@Transactional(readOnly = true)
-	public PuppyListGetResponse getPuppies(PuppyListGetRequest request){
+	public PuppyListGetResponse getPuppies(PuppyListGetRequest request) {
 
 		List<Puppy> puppies = puppyRepository.findPuppies(request.cursorId(), request.pageSize());
+		long lastId = puppies.size() > 0 ? puppies.get(puppies.size() - 1).getId() : -1L;
+
+		return toPuppiesGetResponse(puppies, lastId);
+	}
+
+	@Transactional(readOnly = true)
+	public PuppyListGetResponse getFilteredPuppies(PuppyFilteredListGetRequest request) {
+		List<Puppy> puppies = puppyRepository.findPuppiesWithFiltering(request.cursorId(), request.pageSize(),
+				request.species(), request.sizes());
+		long lastId = puppies.size() > 0 ? puppies.get(puppies.size() - 1).getId() : -1L;
+
+		return toPuppiesGetResponse(puppies, lastId);
+	}
+
+	@Transactional(readOnly = true)
+	public PuppyListGetResponse getSortedPuppies(PuppySortedListGetRequest request) {
+		List<Puppy> puppies = puppyRepository.findPuppiesWithSorting(request.cursorId(), request.pageSize(),
+				request.criteria(), request.isAscending());
+		long lastId = puppies.size() > 0 ? puppies.get(puppies.size() - 1).getId() : -1L;
+
+		return toPuppiesGetResponse(puppies, lastId);
+	}
+
+	@Transactional(readOnly = true)
+	public PuppyListGetResponse enhancedGetPuppies(EnhancedPuppyListGetRequest request) {
+		List<Puppy> puppies = puppyRepository.findPuppies(
+				request.cursorId(), request.pageSize(),
+				request.species(), request.sizes(),
+				request.criteria(), request.isAscending());
 		long lastId = puppies.size() > 0 ? puppies.get(puppies.size() - 1).getId() : -1L;
 
 		return toPuppiesGetResponse(puppies, lastId);

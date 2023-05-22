@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.numble.popularpuppyvote.domain.dto.request.EnhancedPuppyListGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyCreateRequest;
+import com.numble.popularpuppyvote.domain.dto.request.PuppyFilteredListGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyListGetRequest;
+import com.numble.popularpuppyvote.domain.dto.request.PuppySortedListGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyUpdateRequest;
 import com.numble.popularpuppyvote.domain.dto.response.PuppyCreateResponse;
 import com.numble.popularpuppyvote.domain.dto.response.PuppyGetResponse;
@@ -56,6 +59,30 @@ public class PuppyController {
 			@Valid PuppyListGetRequest request
 	) {
 		return ResponseEntity.ok(puppyReadService.getPuppies(request));
+	}
+
+	@GetMapping("/filter")
+	@ResponseStatus(code = HttpStatus.OK)
+	public ResponseEntity<PuppyListGetResponse> getFilteredPuppies(
+			@Valid PuppyFilteredListGetRequest request
+	) {
+		return ResponseEntity.ok(puppyReadService.getFilteredPuppies(request));
+	}
+
+	@GetMapping("/sort")
+	@ResponseStatus(code = HttpStatus.OK)
+	public ResponseEntity<PuppyListGetResponse> getSortedPuppies(
+			@Valid PuppySortedListGetRequest request
+	) {
+		return ResponseEntity.ok(puppyReadService.getSortedPuppies(request));
+	}
+
+	@GetMapping("/enhanced")
+	@ResponseStatus(code = HttpStatus.OK)
+	public ResponseEntity<PuppyListGetResponse> enhancedGetPuppies(
+			@Valid EnhancedPuppyListGetRequest request
+	) {
+		return ResponseEntity.ok(puppyReadService.enhancedGetPuppies(request));
 	}
 
 	@PatchMapping
