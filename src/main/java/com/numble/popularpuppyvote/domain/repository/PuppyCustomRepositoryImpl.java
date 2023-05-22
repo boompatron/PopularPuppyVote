@@ -7,7 +7,9 @@ import org.springframework.stereotype.Repository;
 import com.numble.popularpuppyvote.domain.model.Puppy;
 import com.numble.popularpuppyvote.domain.model.QPuppy;
 import com.numble.popularpuppyvote.domain.model.Size;
+import com.numble.popularpuppyvote.domain.model.SortingCriteria;
 import com.numble.popularpuppyvote.domain.model.Species;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -46,15 +48,35 @@ public class PuppyCustomRepositoryImpl implements PuppyCustomRepository {
 				.fetch();
 	}
 
+	@Override
+	public List<Puppy> findPuppiesWithSorting(Long cursorId, int pageSize, SortingCriteria criteria,
+			Boolean isAscending) {
+		return jpaQueryFactory
+				.selectFrom(qPuppy)
+				.orderBy(
+						criteria(qPuppy, criteria, isAscending)
+				)
+				.limit(pageSize)
+				.fetch();
+	}
+
 	private BooleanExpression gtPuppyId(Long cursorId) {
 		return (cursorId != null) ? qPuppy.id.gt(cursorId) : null;
 	}
 
-	private BooleanExpression inSpecies(QPuppy qPuppy, List<Species> species){
+	private BooleanExpression inSpecies(QPuppy qPuppy, List<Species> species) {
 		return species.size() > 0 ? qPuppy.species.in(species) : null;
 	}
 
 	private BooleanExpression inSize(QPuppy qPuppy, List<Size> sizes) {
 		return sizes.size() > 0 ? qPuppy.size.in(sizes) : null;
+	}
+
+	private OrderSpecifier criteria(QPuppy qPuppy, SortingCriteria criteria, Boolean isAscending) {
+		return switch (criteria) {
+			case DEFAULT -> isAscending ? qPuppy.id.asc() : qPuppy.id.desc();
+			case LIKES -> isAscending ? qPuppy.likeCount.asc() : qPuppy.likeCount.desc();
+			case SPECIES -> isAscending ? qPuppy.species.asc() : qPuppy.species.desc();
+		};
 	}
 }
