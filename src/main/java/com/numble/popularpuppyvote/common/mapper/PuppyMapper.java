@@ -16,6 +16,8 @@ public class PuppyMapper {
 				.name(request.name())
 				.imageUrl(request.imageUrl())
 				.description(request.description())
+				.species(request.species())
+				.size(request.size())
 				.build();
 	}
 
@@ -30,6 +32,8 @@ public class PuppyMapper {
 				puppy.getName(),
 				puppy.getImageUrl(),
 				puppy.getDescription(),
+				puppy.getSpecies(),
+				puppy.getSize(),
 				puppy.getLikeCount()
 		);
 	}
