@@ -8,7 +8,11 @@ spring:
     hibernate:
       ddl-auto: update
     properties:
-      hibernate.format_sql: true
+      jdbc:
+      hibernate:
+        format_sql: true
+        jdbc:
+          batch_size: 100
   profiles:
     include: db, redis
   mvc:
