@@ -58,6 +58,14 @@ public class PuppyController {
 		return ResponseEntity.ok(puppyReadService.getPuppies(request));
 	}
 
+	@GetMapping("/filtered")
+	@ResponseStatus(code = HttpStatus.OK)
+	public ResponseEntity<PuppyListGetResponse> getFilteredPuppies(
+			@Valid PuppyListGetRequest request
+	) {
+		return ResponseEntity.ok(puppyReadService.getFilteredPuppies(request));
+	}
+
 	@PatchMapping
 	@ResponseStatus(code = HttpStatus.OK)
 	public ResponseEntity<PuppyUpdateResponse> updatePuppy(

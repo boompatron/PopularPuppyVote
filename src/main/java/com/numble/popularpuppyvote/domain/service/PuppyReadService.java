@@ -42,6 +42,14 @@ public class PuppyReadService {
 		return toPuppiesGetResponse(puppies, lastId);
 	}
 
+	@Transactional(readOnly = true)
+	public PuppyListGetResponse getFilteredPuppies(PuppyListGetRequest request){
+		List<Puppy> puppies = puppyRepository.findPuppiesWithFiltering(request.cursorId(), request.pageSize(), request.species(), request.sizes());
+		long lastId = puppies.size() > 0 ? puppies.get(puppies.size() - 1).getId() : -1L;
+
+		return toPuppiesGetResponse(puppies, lastId);
+	}
+
 	private Puppy getEntity(Long id) {
 		return puppyRepository.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException(String.format(ENTITY_NOT_FOUND.name(), PUPPY.name())));
