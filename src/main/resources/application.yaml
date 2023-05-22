@@ -8,9 +8,13 @@ spring:
     hibernate:
       ddl-auto: update
     properties:
-      hibernate.format_sql: true
+      jdbc:
+      hibernate:
+        format_sql: true
+        jdbc:
+          batch_size: 100
   profiles:
-    include: db
+    include: db, redis
   mvc:
     path-match:
       matching-strategy: ant_path_matcher
@@ -20,6 +24,9 @@ spring:
 #      schema-locations: classpath:db/schema.sql
       encoding: UTF-8
       mode: never
+  output:
+    ansi:
+      enabled: always
 #logging:
 #  level:
 #    org:

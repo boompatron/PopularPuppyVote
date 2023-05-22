@@ -1,8 +1,8 @@
 package com.numble.popularpuppyvote.common.mapper;
 
-import com.numble.popularpuppyvote.domain.likes.dto.request.LikesRegisterRequest;
-import com.numble.popularpuppyvote.domain.likes.dto.response.LikesRegisterResponse;
-import com.numble.popularpuppyvote.domain.likes.model.Likes;
+import com.numble.popularpuppyvote.domain.dto.request.LikesRegisterRequest;
+import com.numble.popularpuppyvote.domain.dto.response.LikesRegisterResponse;
+import com.numble.popularpuppyvote.domain.model.Likes;
 
 public class LikesMapper {
 

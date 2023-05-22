@@ -3,12 +3,12 @@ package com.numble.popularpuppyvote.common.mapper;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.numble.popularpuppyvote.domain.puppy.dto.request.PuppyCreateRequest;
-import com.numble.popularpuppyvote.domain.puppy.dto.response.PuppyCreateResponse;
-import com.numble.popularpuppyvote.domain.puppy.dto.response.PuppyGetResponse;
-import com.numble.popularpuppyvote.domain.puppy.dto.response.PuppyListGetResponse;
-import com.numble.popularpuppyvote.domain.puppy.dto.response.PuppyUpdateResponse;
-import com.numble.popularpuppyvote.domain.puppy.model.Puppy;
+import com.numble.popularpuppyvote.domain.dto.request.PuppyCreateRequest;
+import com.numble.popularpuppyvote.domain.dto.response.PuppyCreateResponse;
+import com.numble.popularpuppyvote.domain.dto.response.PuppyGetResponse;
+import com.numble.popularpuppyvote.domain.dto.response.PuppyListGetResponse;
+import com.numble.popularpuppyvote.domain.dto.response.PuppyUpdateResponse;
+import com.numble.popularpuppyvote.domain.model.Puppy;
 
 public class PuppyMapper {
 	public static Puppy toPuppy(PuppyCreateRequest request){
