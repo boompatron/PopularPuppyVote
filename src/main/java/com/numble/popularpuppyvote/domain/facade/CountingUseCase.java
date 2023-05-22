@@ -1,5 +1,7 @@
 package com.numble.popularpuppyvote.domain.facade;
 
+import java.util.List;
+
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +23,12 @@ public class CountingUseCase {
 	@Transactional
 	@Scheduled(fixedDelay = fixedDelay, initialDelay = initialDelay)
 	public void countLikes(){
+		// TODO 집계 로직 최적화하기
+		List<Long> ids = puppyRepository.getAllIdsDistinctGroupBy();
 
-	}
+		for (Long id: ids){
+			Integer cnt = likesRepository.getLikesCountByPuppyId(id);
+			puppyRepository.updateLikeCountById(id, cnt);
+		}
+ 	}
 }

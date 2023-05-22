@@ -12,15 +12,12 @@ import com.numble.popularpuppyvote.domain.model.Likes;
 public interface LikesRepository extends JpaRepository<Likes, Long> {
 
 	@Query("SELECT COUNT(*) FROM Likes as l WHERE l.puppyId = :puppyId")
-	public Long getLikesCountByPuppyId(Long puppyId);
+	Integer getLikesCountByPuppyId(Long puppyId);
 
-	// TODO distinct vs group by 속도 차이 뭐 쓸지 결정하기
 	@Query("SELECT DISTINCT l.puppyId FROM Likes as l")
-	public List<Long> getPuppyIdsDistinct();
+	List<Long> getPuppyIdsDistinct();
 
+	// Group by 가 더 빠름
 	@Query("SELECT l.puppyId FROM Likes as l GROUP BY l.puppyId")
-	public List<Long> getPuppyIdsGroupBy();
-
-	@Query("SELECT COUNT(*) FROM Likes as l GROUP BY l.puppyId")
-	public List<Object> getAllCountGroupByPuppyId();
+	List<Long> getPuppyIdsGroupBy();
 }
