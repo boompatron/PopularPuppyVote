@@ -65,6 +65,24 @@ public class PuppyCustomRepositoryImpl implements PuppyCustomRepository {
 				.fetch();
 	}
 
+	@Override
+	public List<Puppy> findPuppies(Long cursorId, int pageSize,
+			List<Species> species, List<Size> sizes,
+			SortingCriteria criteria, Boolean isAscending) {
+		return jpaQueryFactory
+				.selectFrom(qPuppy)
+				.where(
+						compare(criteria, cursorId, isAscending),
+						inSpecies(species),
+						inSize(sizes)
+				)
+				.orderBy(
+						criteria(criteria, isAscending)
+				)
+				.limit(pageSize)
+				.fetch();
+	}
+
 	private BooleanExpression gtPuppyId(Long cursorId) {
 		return (cursorId != null) ? qPuppy.id.gt(cursorId) : null;
 	}
@@ -109,6 +127,7 @@ public class PuppyCustomRepositoryImpl implements PuppyCustomRepository {
 		return isAscending ? qPuppy.species.gt(species) : qPuppy.species.lt(species);
 	}
 
+	// TODO 현재는 비교 할 때 쿼리를 하나 더 날리는데, Species, Size에 숫자로 대체해서 lastId를 id가 아닌 id, 좋아요수, enum에서의 위치 등을 저장하는 방식으로 변경(숫자로 통일해서 문제 해결)
 	private BooleanExpression compare(SortingCriteria criteria, Long cursorId, Boolean isAscending) {
 		return cursorId != null ? switch (criteria) {
 			case DEFAULT -> compareByPuppyId(cursorId, isAscending);

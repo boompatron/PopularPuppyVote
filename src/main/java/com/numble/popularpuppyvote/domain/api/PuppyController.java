@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.numble.popularpuppyvote.domain.dto.request.EnhancedPuppyListGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyCreateRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyFilteredListGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyListGetRequest;
@@ -74,6 +75,14 @@ public class PuppyController {
 			@Valid PuppySortedListGetRequest request
 	) {
 		return ResponseEntity.ok(puppyReadService.getSortedPuppies(request));
+	}
+
+	@GetMapping("/enhanced")
+	@ResponseStatus(code = HttpStatus.OK)
+	public ResponseEntity<PuppyListGetResponse> enhancedGetPuppies(
+			@Valid EnhancedPuppyListGetRequest request
+	) {
+		return ResponseEntity.ok(puppyReadService.enhancedGetPuppies(request));
 	}
 
 	@PatchMapping
