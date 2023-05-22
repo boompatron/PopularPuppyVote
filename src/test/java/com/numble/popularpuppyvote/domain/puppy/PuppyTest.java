@@ -1,6 +1,7 @@
 package com.numble.popularpuppyvote.domain.puppy;
 
 import java.util.List;
+import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.util.StopWatch;
 
 import com.numble.popularpuppyvote.domain.repository.PuppyRepository;
+import com.numble.popularpuppyvote.domain.utils.PuppyFixtureFactory;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,7 +21,7 @@ public class PuppyTest {
 	PuppyRepository puppyRepository;
 
 	@Test
-	void timeTest(){
+	void timeTest() {
 		var groupByWatch = new StopWatch();
 		var distinctWatch = new StopWatch();
 		var groupByAndDistinctWatch = new StopWatch();
@@ -38,5 +40,15 @@ public class PuppyTest {
 		List<Long> mixedIds = puppyRepository.getAllIdsDistinctGroupBy();
 		groupByAndDistinctWatch.stop();
 		log.info("Mixed Time : " + groupByAndDistinctWatch.getTotalTimeMillis() + "ms");
+	}
+
+	@Test
+	void puppyBulkInsert() {
+		var puppies = LongStream.range(0, 25)
+				.parallel()
+				.mapToObj(PuppyFixtureFactory::create)
+				.toList();
+
+		puppyRepository.saveAll(puppies);
 	}
 }

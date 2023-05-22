@@ -1,8 +1,9 @@
 package com.numble.popularpuppyvote.domain.puppy.service;
 
+import static com.numble.popularpuppyvote.domain.model.Species.WELSH_CORGI;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -16,6 +17,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyCreateRequest;
 import com.numble.popularpuppyvote.domain.dto.response.PuppyCreateResponse;
 import com.numble.popularpuppyvote.domain.model.Puppy;
+import com.numble.popularpuppyvote.domain.model.Size;
 import com.numble.popularpuppyvote.domain.repository.PuppyRepository;
 import com.numble.popularpuppyvote.domain.service.PuppyService;
 
@@ -33,7 +35,7 @@ public class PuppyServiceTest {
 
 	@BeforeEach
 	void beforeEach() {
-		puppy = new Puppy(1L, "coco", "coco.com", "귀여운 코코");
+		puppy = new Puppy(1L, "coco", "coco.com", "귀여운 코코", WELSH_CORGI, Size.MEDIUM);
 	}
 
 	@Nested
@@ -44,7 +46,7 @@ public class PuppyServiceTest {
 		@DisplayName("강아지를 등록한다")
 		void registerPuppy() {
 			// Given
-			PuppyCreateRequest request = new PuppyCreateRequest("coco", "coco.com", "귀여운 코코");
+			PuppyCreateRequest request = new PuppyCreateRequest("coco", "coco.com", "귀여운 코코", WELSH_CORGI, Size.MEDIUM);
 			given(puppyRepository.save(any(Puppy.class))).willReturn(puppy);
 
 			// When

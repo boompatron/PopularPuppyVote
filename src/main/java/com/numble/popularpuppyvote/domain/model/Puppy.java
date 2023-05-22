@@ -3,6 +3,8 @@ package com.numble.popularpuppyvote.domain.model;
 import static lombok.AccessLevel.PROTECTED;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,14 +31,22 @@ public class Puppy extends BaseTimeEntity {
 
 	private String description;
 
+	@Enumerated(EnumType.STRING)
+	private Species species;
+
+	@Enumerated(EnumType.STRING)
+	private Size size;
+
 	private Integer likeCount;
 
 	@Builder
-	public Puppy(Long id, String name, String imageUrl, String description) {
+	public Puppy(Long id, String name, String imageUrl, String description, Species species, Size size) {
 		this.id = id;
 		this.name = name;
 		this.imageUrl = imageUrl;
 		this.description = description;
+		this.size = size;
+		this.species = species;
 		this.likeCount = 0;
 	}
 
