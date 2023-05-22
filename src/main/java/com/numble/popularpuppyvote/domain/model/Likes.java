@@ -2,6 +2,8 @@ package com.numble.popularpuppyvote.domain.model;
 
 import static lombok.AccessLevel.PROTECTED;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,13 +27,21 @@ public class Likes extends BaseTimeEntity {
 
 	private Long puppyId;
 
-	boolean isDeleted;
+	private Boolean isDeleted;
 
 	@Builder
 	public Likes(Long id, Long puppyId) {
 		this.id = id;
 		this.puppyId = puppyId;
 		this.isDeleted = false;
+	}
+
+	public Likes(Long id, Long puppyId, Boolean isDeleted, LocalDateTime createdAt, LocalDateTime updatedAt) {
+		this.id = id;
+		this.puppyId = puppyId;
+		this.isDeleted = isDeleted;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
 	}
 
 	public void delete(){
