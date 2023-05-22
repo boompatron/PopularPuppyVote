@@ -14,7 +14,9 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class PuppyCustomRepositoryImpl implements PuppyCustomRepository {
@@ -40,8 +42,8 @@ public class PuppyCustomRepositoryImpl implements PuppyCustomRepository {
 				.selectFrom(qPuppy)
 				.where(
 						gtPuppyId(cursorId),
-						inSpecies(qPuppy, species),
-						inSize(qPuppy, sizes)
+						inSpecies(species),
+						inSize(sizes)
 				)
 				.orderBy(qPuppy.id.asc())
 				.limit(pageSize)
@@ -53,8 +55,11 @@ public class PuppyCustomRepositoryImpl implements PuppyCustomRepository {
 			Boolean isAscending) {
 		return jpaQueryFactory
 				.selectFrom(qPuppy)
+				.where(
+						compare(criteria, cursorId, isAscending)
+				)
 				.orderBy(
-						criteria(qPuppy, criteria, isAscending)
+						criteria(criteria, isAscending)
 				)
 				.limit(pageSize)
 				.fetch();
@@ -64,19 +69,52 @@ public class PuppyCustomRepositoryImpl implements PuppyCustomRepository {
 		return (cursorId != null) ? qPuppy.id.gt(cursorId) : null;
 	}
 
-	private BooleanExpression inSpecies(QPuppy qPuppy, List<Species> species) {
+	private BooleanExpression inSpecies(List<Species> species) {
 		return species.size() > 0 ? qPuppy.species.in(species) : null;
 	}
 
-	private BooleanExpression inSize(QPuppy qPuppy, List<Size> sizes) {
+	private BooleanExpression inSize(List<Size> sizes) {
 		return sizes.size() > 0 ? qPuppy.size.in(sizes) : null;
 	}
 
-	private OrderSpecifier criteria(QPuppy qPuppy, SortingCriteria criteria, Boolean isAscending) {
+	private OrderSpecifier criteria(SortingCriteria criteria, Boolean isAscending) {
 		return switch (criteria) {
 			case DEFAULT -> isAscending ? qPuppy.id.asc() : qPuppy.id.desc();
 			case LIKES -> isAscending ? qPuppy.likeCount.asc() : qPuppy.likeCount.desc();
 			case SPECIES -> isAscending ? qPuppy.species.asc() : qPuppy.species.desc();
 		};
+	}
+
+	private BooleanExpression compareByPuppyId(Long cursorId, Boolean isAscending) {
+		return isAscending ? qPuppy.id.gt(cursorId) : qPuppy.id.lt(cursorId);
+	}
+
+	private BooleanExpression compareByLikeCount(Long cursorId, Boolean isAscending) {
+		Integer likeCount =
+				jpaQueryFactory
+						.select(qPuppy.likeCount)
+						.from(qPuppy)
+						.where(qPuppy.id.eq(cursorId))
+						.fetchOne();
+		return isAscending ? qPuppy.likeCount.gt(likeCount) : qPuppy.likeCount.lt(likeCount);
+	}
+
+	private BooleanExpression compareBySpecies(Long cursorId, Boolean isAscending) {
+		Species species =
+				jpaQueryFactory
+						.select(qPuppy.species)
+						.from(qPuppy)
+						.where(qPuppy.id.eq(cursorId))
+						.fetchOne();
+		return isAscending ? qPuppy.species.gt(species) : qPuppy.species.lt(species);
+	}
+
+	private BooleanExpression compare(SortingCriteria criteria, Long cursorId, Boolean isAscending) {
+		return cursorId != null ? switch (criteria) {
+			case DEFAULT -> compareByPuppyId(cursorId, isAscending);
+			case LIKES -> compareByLikeCount(cursorId, isAscending);
+			case SPECIES -> compareBySpecies(cursorId, isAscending);
+		} : null;
+
 	}
 }
