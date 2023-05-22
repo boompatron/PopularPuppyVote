@@ -24,6 +24,9 @@ spring:
 #      schema-locations: classpath:db/schema.sql
       encoding: UTF-8
       mode: never
+  output:
+    ansi:
+      enabled: always
 #logging:
 #  level:
 #    org:
