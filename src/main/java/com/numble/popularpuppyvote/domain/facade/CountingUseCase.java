@@ -17,8 +17,8 @@ public class CountingUseCase {
 	private final LikesRepository likesRepository;
 	private final PuppyRepository puppyRepository;
 
-	private final int fixedDelay = 60 * 1000;			// 스케쥴링 간격
-	private final int initialDelay = 60 * 1000;		// 어플리케이션 구동 후 스케쥴링 시작 시간
+	private final int fixedDelay = 10 * 60 * 1000;			// 스케쥴링 간격
+	private final int initialDelay = 5 * 60 * 1000;		// 어플리케이션 구동 후 스케쥴링 시작 시간
 
 	@Transactional
 	@Scheduled(fixedDelay = fixedDelay, initialDelay = initialDelay)
