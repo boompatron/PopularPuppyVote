@@ -32,10 +32,12 @@ public class PuppyReadService {
 	private final PuppyRepository puppyRepository;
 	private final RedisTemplate<String, PuppyGetResponse> redisTemplate;
 
+	private static final String REDIS_PUPPY_KEY_PREFIX = "PUPPY";
+
 	@Transactional(readOnly = true)
 	public PuppyGetResponse getOnePuppy(Long puppyId) {
 		ValueOperations<String, PuppyGetResponse> ops = redisTemplate.opsForValue();
-		String key = "Puppy:" + puppyId;
+		String key = REDIS_PUPPY_KEY_PREFIX + puppyId;
 		if (ops.get(key) != null) {
 			return ops.get(key);
 		} else {
