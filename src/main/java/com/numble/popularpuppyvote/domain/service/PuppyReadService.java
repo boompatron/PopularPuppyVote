@@ -7,18 +7,19 @@ import static com.numble.popularpuppyvote.common.mapper.PuppyMapper.toPuppyGetRe
 
 import java.util.List;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityNotFoundException;
 
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.numble.popularpuppyvote.domain.dto.request.EnhancedPuppyListGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyFilteredListGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyListGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppySortedListGetRequest;
-import com.numble.popularpuppyvote.domain.dto.response.PuppyListGetResponse;
 import com.numble.popularpuppyvote.domain.dto.response.PuppyGetResponse;
+import com.numble.popularpuppyvote.domain.dto.response.PuppyListGetResponse;
 import com.numble.popularpuppyvote.domain.model.Puppy;
 import com.numble.popularpuppyvote.domain.repository.PuppyRepository;
 
@@ -29,10 +30,21 @@ import lombok.RequiredArgsConstructor;
 public class PuppyReadService {
 
 	private final PuppyRepository puppyRepository;
+	private final RedisTemplate<String, PuppyGetResponse> redisTemplate;
+
+	private static final String REDIS_PUPPY_KEY_PREFIX = "PUPPY";
 
 	@Transactional(readOnly = true)
 	public PuppyGetResponse getOnePuppy(Long puppyId) {
-		return toPuppyGetResponse(getEntity(puppyId));
+		ValueOperations<String, PuppyGetResponse> ops = redisTemplate.opsForValue();
+		String key = REDIS_PUPPY_KEY_PREFIX + puppyId;
+		if (ops.get(key) != null) {
+			return ops.get(key);
+		} else {
+			PuppyGetResponse dto = toPuppyGetResponse(getEntity(puppyId));
+			ops.set(key, dto);
+			return dto;
+		}
 	}
 
 	@Transactional(readOnly = true)

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.numble.popularpuppyvote.domain.dto.request.LikesRegisterRequest;
+import com.numble.popularpuppyvote.domain.dto.response.LikesCountGetResponse;
 import com.numble.popularpuppyvote.domain.dto.response.LikesRegisterResponse;
 import com.numble.popularpuppyvote.domain.model.Likes;
 import com.numble.popularpuppyvote.domain.repository.LikesRepository;
@@ -32,6 +33,11 @@ public class LikesService {
 		Likes likes = getEntity(likesId);
 		likes.delete();
 		likesRepository.save(likes);
+	}
+
+	@Transactional(readOnly = true)
+	public LikesCountGetResponse getLikesByPuppyId(Long puppyId){
+		return new LikesCountGetResponse(likesRepository.getLikesByPuppyId(puppyId));
 	}
 
 	private Likes getEntity(Long likesId) {

@@ -38,6 +38,7 @@ public class PuppyMapper {
 		);
 	}
 
+
 	public static PuppyListGetResponse toPuppiesGetResponse(List<Puppy> puppies, Long lastId){
 		List<PuppyGetResponse> puppyresponses = new ArrayList<>();
 		for (Puppy puppy : puppies) {
