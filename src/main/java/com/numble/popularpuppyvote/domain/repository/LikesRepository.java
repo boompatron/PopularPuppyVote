@@ -20,4 +20,7 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
 	// Group by 가 더 빠름
 	@Query("SELECT l.puppyId FROM Likes as l GROUP BY l.puppyId")
 	List<Long> getPuppyIdsGroupBy();
+
+	@Query("SELECT COUNT(*) FROM Likes as l WHERE l.puppyId = :puppyId")
+	int getLikesByPuppyId(Long puppyId);
 }
