@@ -55,7 +55,7 @@ dependencies {
     implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
 
     // Redis
-    // implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
     // Easy Random
     testImplementation 'org.jeasy:easy-random-core:5.0.0'
