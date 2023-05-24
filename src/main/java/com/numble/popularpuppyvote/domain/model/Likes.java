@@ -44,7 +44,12 @@ public class Likes extends BaseTimeEntity {
 		this.updatedAt = updatedAt;
 	}
 
-	public void delete(){
+	public void delete() {
 		this.isDeleted = true;
+	}
+
+	@Override
+	public String toString() {
+		return "ID : " + this.id + ", puppyId : " + puppyId + ", isDeleted : " + isDeleted;
 	}
 }
