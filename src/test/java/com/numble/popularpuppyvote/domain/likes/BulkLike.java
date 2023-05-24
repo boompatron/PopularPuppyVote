@@ -38,16 +38,18 @@ public class BulkLike {
 	void insertLikesBulk() {
 
 		int dateSize = 10 * 10000;
+		long puppySize = 30L;
+
 		StopWatch generatingData, bulkInsert;
 
-		for (int i = 1; i < 11; i++) {
+		for (int i = 0; i < 10; i++) {
 			generatingData = new StopWatch();
 			bulkInsert = new StopWatch();
 
 			generatingData.start();
 			var likes = IntStream.range(0, dateSize)
 					.parallel()
-					.mapToObj(o -> LikesFixtureFactory.create(o, 25L))
+					.mapToObj(o -> LikesFixtureFactory.create(o, puppySize))
 					.toList();
 			generatingData.stop();
 
@@ -55,21 +57,11 @@ public class BulkLike {
 			likesJdbcRepository.bulkInsert(likes);
 			bulkInsert.stop();
 
-			String logString = String.format("""
-					# %d: 데이터 크기 : %d, 데이터 생성에 걸리는 시간 : %.3fs, 데이터 삽입에 걸리는 시간 : %.3fs
-					""", i, dateSize, generatingData.getTotalTimeSeconds(), bulkInsert.getTotalTimeSeconds()
-			);
+			String logString = "#" + (i + 1) + "\t데이터 크기 : " + dateSize + "\t| 데이터 생성에 걸린 시간 : "
+					+ Math.round(generatingData.getTotalTimeSeconds() * 1000) / 1000.0
+					+ "s\t |  데이터 삽입에 걸린 시간 : " + Math.round(bulkInsert.getTotalTimeSeconds() * 1000) / 1000.0 + "s";
 
 			log.info(logString);
 		}
-	}
-
-	@Test
-	void stringTest() {
-		double a = 12.123456;
-		String logString = String.format("""
-				%d, %.4fs
-				""", 1, a);
-		log.info(logString);
 	}
 }
