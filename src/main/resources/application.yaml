@@ -14,7 +14,7 @@ spring:
         jdbc:
           batch_size: 100
   profiles:
-    include: db, redis
+    include: db, redis, kafka
   mvc:
     path-match:
       matching-strategy: ant_path_matcher
