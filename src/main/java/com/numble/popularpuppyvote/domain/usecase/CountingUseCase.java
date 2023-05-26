@@ -1,4 +1,4 @@
-package com.numble.popularpuppyvote.domain.facade;
+package com.numble.popularpuppyvote.domain.usecase;
 
 import java.util.List;
 
