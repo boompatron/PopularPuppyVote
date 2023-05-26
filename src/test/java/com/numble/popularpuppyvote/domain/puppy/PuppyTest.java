@@ -44,7 +44,7 @@ public class PuppyTest {
 
 	@Test
 	void puppyBulkInsert() {
-		var puppies = LongStream.range(0, 25L)
+		var puppies = LongStream.range(1, 31)
 				.parallel()
 				.mapToObj(PuppyFixtureFactory::create)
 				.toList();

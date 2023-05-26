@@ -17,10 +17,13 @@ import com.numble.popularpuppyvote.domain.model.Likes;
 import com.numble.popularpuppyvote.domain.repository.LikesRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class LikesService {
+
 	private final LikesRepository likesRepository;
 
 	@Transactional
@@ -36,7 +39,7 @@ public class LikesService {
 	}
 
 	@Transactional(readOnly = true)
-	public LikesCountGetResponse getLikesByPuppyId(Long puppyId){
+	public LikesCountGetResponse getLikesByPuppyId(Long puppyId) {
 		return new LikesCountGetResponse(likesRepository.getLikesByPuppyId(puppyId));
 	}
 
