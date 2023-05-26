@@ -26,13 +26,13 @@ public class LikesController {
 
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public ResponseEntity<LikesRegisterResponse> registerLikes(@RequestBody LikesRegisterRequest request){
+	public ResponseEntity<LikesRegisterResponse> registerLikes(@RequestBody LikesRegisterRequest request) {
 		return new ResponseEntity<>(likesService.registerLikes(request), HttpStatus.CREATED);
 	}
 
 	@PatchMapping("/{likesId}")
 	@ResponseStatus(code = HttpStatus.OK)
-	public ResponseEntity<Void> deleteLikes(@PathVariable Long likesId){
+	public ResponseEntity<Void> deleteLikes(@PathVariable Long likesId) {
 		likesService.deleteLikes(likesId);
 		return ResponseEntity.ok().build();
 	}
@@ -41,7 +41,8 @@ public class LikesController {
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<LikesCountGetResponse> getLikesByPuppyId(
 			@PathVariable Long puppyId
-	){
+	) {
 		return new ResponseEntity<>(likesService.getLikesByPuppyId(puppyId), HttpStatus.OK);
 	}
+
 }
