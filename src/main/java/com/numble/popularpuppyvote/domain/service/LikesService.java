@@ -1,9 +1,11 @@
 package com.numble.popularpuppyvote.domain.service;
 
 import static com.numble.popularpuppyvote.common.Message.ENTITY_NOT_FOUND;
-import static com.numble.popularpuppyvote.common.Message.LIKES;
+import static com.numble.popularpuppyvote.common.Message.PUPPY;
 import static com.numble.popularpuppyvote.common.mapper.LikesMapper.toLikes;
 import static com.numble.popularpuppyvote.common.mapper.LikesMapper.toLikesRegisterResponse;
+
+import java.util.Objects;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -28,13 +30,12 @@ public class LikesService {
 
 	@Transactional
 	public LikesRegisterResponse registerLikes(LikesRegisterRequest request) {
-		// log.info("id : " + request.puppyId() + ", session id :" + request.sessionId() );
 		return toLikesRegisterResponse(likesRepository.save(toLikes(request)));
 	}
 
 	@Transactional
-	public void deleteLikes(Long likesId) {
-		Likes likes = getEntity(likesId);
+	public void deleteLikes(String sessionId, Long puppyId) {
+		Likes likes = getEntity(sessionId, puppyId);
 		likes.delete();
 		likesRepository.save(likes);
 	}
@@ -44,8 +45,11 @@ public class LikesService {
 		return new LikesCountGetResponse(likesRepository.getLikesByPuppyId(puppyId));
 	}
 
-	private Likes getEntity(Long likesId) {
-		return likesRepository.findById(likesId)
-				.orElseThrow(() -> new EntityNotFoundException(String.format(ENTITY_NOT_FOUND.name(), LIKES.name())));
+	private Likes getEntity(String sessionId, Long puppyId) {
+		Likes entity = likesRepository.findBySessionIdAndPuppyId(sessionId, puppyId);
+		if (Objects.isNull(entity))
+			throw new EntityNotFoundException(String.format(ENTITY_NOT_FOUND.name(), PUPPY.name()));
+		return entity;
+		//.orElseThrow(() -> new EntityNotFoundException(String.format(ENTITY_NOT_FOUND.name(), PUPPY.name())));
 	}
 }
