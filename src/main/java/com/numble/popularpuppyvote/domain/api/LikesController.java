@@ -1,5 +1,7 @@
 package com.numble.popularpuppyvote.domain.api;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +28,13 @@ public class LikesController {
 
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public ResponseEntity<LikesRegisterResponse> registerLikes(@RequestBody LikesRegisterRequest request) {
-		return new ResponseEntity<>(likesService.registerLikes(request), HttpStatus.CREATED);
+	public ResponseEntity<LikesRegisterResponse> registerLikes(HttpSession httpSession,
+			@RequestBody LikesRegisterRequest request) {
+		if (httpSession.getAttribute("like") == null) {
+			httpSession.setAttribute("like", httpSession.getId());
+			return new ResponseEntity<>(likesService.registerLikes(request), HttpStatus.CREATED);
+		}
+		return ResponseEntity.badRequest().build();
 	}
 
 	@PatchMapping("/{likesId}")

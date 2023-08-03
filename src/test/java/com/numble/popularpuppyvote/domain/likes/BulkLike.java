@@ -37,7 +37,7 @@ public class BulkLike {
 	@Test
 	void insertLikesBulk() {
 
-		int dateSize = 10 * 10000;
+		int dateSize = 1000;
 		long puppySize = 30L;
 
 		StopWatch generatingData, bulkInsert;

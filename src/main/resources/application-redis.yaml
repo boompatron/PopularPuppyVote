@@ -1,4 +1,7 @@
 spring:
+  session:
+    store-type: redis
   redis:
+    # host: 175.45.201.87
     host: localhost
     port: 6379
