@@ -46,11 +46,6 @@ public class PuppyReadService {
 	}
 
 	@Transactional(readOnly = true)
-	public PuppyGetResponse getOnePuppyWithOutRedis(Long puppyId) {
-		return toPuppyGetResponse(getEntity(puppyId));
-	}
-
-	@Transactional(readOnly = true)
 	public PuppyListGetResponse getPuppies(PuppyListGetRequest request) {
 
 		List<Puppy> puppies = puppyRepository.findPuppies(request.cursorId(), request.pageSize());

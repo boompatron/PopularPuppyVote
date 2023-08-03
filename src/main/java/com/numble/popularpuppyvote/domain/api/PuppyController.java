@@ -42,15 +42,8 @@ public class PuppyController {
 	) {
 		return new ResponseEntity<>(puppyService.registerPuppy(request), HttpStatus.CREATED);
 	}
-	@GetMapping("/{puppyId}")
-	@ResponseStatus(code = HttpStatus.OK)
-	public ResponseEntity<PuppyGetResponse> getOnePuppy(
-			@PathVariable Long puppyId
-	) {
-		return ResponseEntity.ok(puppyReadService.getOnePuppyWithOutRedis(puppyId));
-	}
 
-	@GetMapping("/redis/{puppyId}")
+	@GetMapping("/{puppyId}")
 	@ResponseStatus(code = HttpStatus.OK)
 	public ResponseEntity<PuppyGetResponse> getOnePuppyWithRedis(
 			@PathVariable Long puppyId// , HttpSession session
@@ -71,7 +64,7 @@ public class PuppyController {
 	public ResponseEntity<PuppyListGetResponse> enhancedGetPuppies(
 			@Valid EnhancedPuppyListGetRequest request
 	) {
-		return ResponseEntity.ok(puppyReadService.enhancedGetPuppies(request));
+		return ResponseEntity.ok(puppyReadService.getPuppiesWithSortingAndFiltering(request));
 	}
 
 	@PatchMapping
