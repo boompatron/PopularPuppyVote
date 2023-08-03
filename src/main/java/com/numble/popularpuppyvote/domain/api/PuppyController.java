@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.numble.popularpuppyvote.domain.dto.request.EnhancedPuppyListGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyCreateRequest;
-import com.numble.popularpuppyvote.domain.dto.request.PuppyFilteredListGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyListGetRequest;
-import com.numble.popularpuppyvote.domain.dto.request.PuppySortedListGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyUpdateRequest;
 import com.numble.popularpuppyvote.domain.dto.response.PuppyCreateResponse;
 import com.numble.popularpuppyvote.domain.dto.response.PuppyGetResponse;
@@ -48,12 +46,12 @@ public class PuppyController {
 	@GetMapping("/{puppyId}")
 	@ResponseStatus(code = HttpStatus.OK)
 	public ResponseEntity<PuppyGetResponse> getOnePuppy(
-			@PathVariable Long puppyId
+			@PathVariable Long puppyId// , HttpSession session
 	) {
 		return ResponseEntity.ok(puppyReadService.getOnePuppy(puppyId));
 	}
 
-	@GetMapping
+	@GetMapping("/many")
 	@ResponseStatus(code = HttpStatus.OK)
 	public ResponseEntity<PuppyListGetResponse> getPuppies(
 			@Valid PuppyListGetRequest request
@@ -61,28 +59,12 @@ public class PuppyController {
 		return ResponseEntity.ok(puppyReadService.getPuppies(request));
 	}
 
-	@GetMapping("/filter")
+	@GetMapping("/many/condition")
 	@ResponseStatus(code = HttpStatus.OK)
-	public ResponseEntity<PuppyListGetResponse> getFilteredPuppies(
-			@Valid PuppyFilteredListGetRequest request
-	) {
-		return ResponseEntity.ok(puppyReadService.getFilteredPuppies(request));
-	}
-
-	@GetMapping("/sort")
-	@ResponseStatus(code = HttpStatus.OK)
-	public ResponseEntity<PuppyListGetResponse> getSortedPuppies(
-			@Valid PuppySortedListGetRequest request
-	) {
-		return ResponseEntity.ok(puppyReadService.getSortedPuppies(request));
-	}
-
-	@GetMapping("/enhanced")
-	@ResponseStatus(code = HttpStatus.OK)
-	public ResponseEntity<PuppyListGetResponse> enhancedGetPuppies(
+	public ResponseEntity<PuppyListGetResponse> getManyPuppiesWithCondition(
 			@Valid EnhancedPuppyListGetRequest request
 	) {
-		return ResponseEntity.ok(puppyReadService.enhancedGetPuppies(request));
+		return ResponseEntity.ok(puppyReadService.getManyPuppiesWithCondition(request));
 	}
 
 	@PatchMapping
