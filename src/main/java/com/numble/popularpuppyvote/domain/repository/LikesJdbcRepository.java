@@ -19,8 +19,8 @@ public class LikesJdbcRepository {
 
 	public void bulkInsert(List<Likes> likesList) {
 		String sql = String.format("""
-				INSERT INTO `%s` (puppy_id, is_deleted, created_at, updated_at)
-				VALUES (:puppyId, :isDeleted, :createdAt, :updatedAt)
+				INSERT INTO `%s` (puppy_id, is_deleted, created_at, updated_at, session_id)
+				VALUES (:puppyId, :isDeleted, :createdAt, :updatedAt, :sessionId)
 				""", TABLE);
 
 		SqlParameterSource[] params = likesList

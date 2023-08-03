@@ -1,7 +1,6 @@
 package com.numble.popularpuppyvote.domain.likes;
 
 import java.util.stream.IntStream;
-import java.util.stream.LongStream;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +25,9 @@ public class BulkLike {
 
 	@Test
 	void testTest() {
-		LongStream.range(0, 10)
-				.mapToObj(i -> LikesFixtureFactory.create(i, 7L))
-				.forEach(likes -> System.out.println(
-								"ID : " + likes.getId() + ", puppy id : " + likes.getPuppyId() + ", isDeleted : " + likes.getIsDeleted()
-						)
-				);
+		IntStream.range(0, 10)
+			.mapToObj(i -> LikesFixtureFactory.create(i, 7L))
+			.forEach(likes -> System.out.println(likes.toString()));
 	}
 
 	@Test
@@ -42,15 +38,15 @@ public class BulkLike {
 
 		StopWatch generatingData, bulkInsert;
 
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 1; i++) {
 			generatingData = new StopWatch();
 			bulkInsert = new StopWatch();
 
 			generatingData.start();
 			var likes = IntStream.range(0, dateSize)
-					.parallel()
-					.mapToObj(o -> LikesFixtureFactory.create(o, puppySize))
-					.toList();
+				.parallel()
+				.mapToObj(o -> LikesFixtureFactory.create(o, puppySize))
+				.toList();
 			generatingData.stop();
 
 			bulkInsert.start();
@@ -58,8 +54,8 @@ public class BulkLike {
 			bulkInsert.stop();
 
 			String logString = "#" + (i + 1) + "\t데이터 크기 : " + dateSize + "\t| 데이터 생성에 걸린 시간 : "
-					+ Math.round(generatingData.getTotalTimeSeconds() * 1000) / 1000.0
-					+ "s\t |  데이터 삽입에 걸린 시간 : " + Math.round(bulkInsert.getTotalTimeSeconds() * 1000) / 1000.0 + "s";
+				+ Math.round(generatingData.getTotalTimeSeconds() * 1000) / 1000.0
+				+ "s\t |  데이터 삽입에 걸린 시간 : " + Math.round(bulkInsert.getTotalTimeSeconds() * 1000) / 1000.0 + "s";
 
 			log.info(logString);
 		}

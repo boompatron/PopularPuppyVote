@@ -28,6 +28,7 @@ public class LikesService {
 
 	@Transactional
 	public LikesRegisterResponse registerLikes(LikesRegisterRequest request) {
+		// log.info("id : " + request.puppyId() + ", session id :" + request.sessionId() );
 		return toLikesRegisterResponse(likesRepository.save(toLikes(request)));
 	}
 

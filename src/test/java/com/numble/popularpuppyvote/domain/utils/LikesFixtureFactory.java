@@ -22,48 +22,50 @@ public class LikesFixtureFactory {
 		return new EasyRandom(params).nextObject(Likes.class);
 	}
 
-	public static Likes create(Long seed, Long puppySize) {
-		var idPredicate = named("id")
-				.and(ofType(Long.class))
-				.and(inClass(Likes.class));
-
-		var isDeletedPredicate = named("isDeleted")
-				.and(ofType(Boolean.class))
-				.and(inClass(Likes.class));
-
-		var params = new EasyRandomParameters()
-				.seed(seed)
-				.randomize(idPredicate, () -> seed)
-				.randomize(isDeletedPredicate, () -> false)
-				.randomize(Long.class, () -> new Random().nextLong(0, puppySize));
-
-		return new EasyRandom(params).nextObject(Likes.class);
-	}
+	// public static Likes create(Long seed, Long puppySize) {
+	// 	var idPredicate = named("id")
+	// 		.and(ofType(Long.class))
+	// 		.and(inClass(Likes.class));
+	//
+	// 	var isDeletedPredicate = named("isDeleted")
+	// 		.and(ofType(Boolean.class))
+	// 		.and(inClass(Likes.class));
+	//
+	// 	var params = new EasyRandomParameters()
+	// 		.seed(seed)
+	// 		.stringLengthRange(11, 11)
+	// 		.randomize(idPredicate, () -> seed)
+	// 		.randomize(isDeletedPredicate, () -> false)
+	// 		.randomize(Long.class, () -> new Random().nextLong(0, puppySize));
+	//
+	// 	return new EasyRandom(params).nextObject(Likes.class);
+	// }
 
 	public static Likes create(int seed, Long puppySize) {
 		Predicate<Field> idPredicate = named("id")
-				.and(ofType(Long.class))
-				.and(inClass(Likes.class));
+			.and(ofType(Long.class))
+			.and(inClass(Likes.class));
 
 		Predicate<Field> isDeletedPredicate = named("isDeleted")
-				.and(ofType(Boolean.class))
-				.and(inClass(Likes.class));
+			.and(ofType(Boolean.class))
+			.and(inClass(Likes.class));
 
 		Predicate<Field> createdAtPredicate = named("createdAt")
-				.and(ofType(LocalDateTime.class))
-				.and(inClass(Likes.class));
+			.and(ofType(LocalDateTime.class))
+			.and(inClass(Likes.class));
 
 		Predicate<Field> updatedAtPredicate = named("updatedAt")
-				.and(ofType(LocalDateTime.class))
-				.and(inClass(Likes.class));
+			.and(ofType(LocalDateTime.class))
+			.and(inClass(Likes.class));
 
 		EasyRandomParameters params = new EasyRandomParameters()
-				.seed(seed)
-				.excludeField(createdAtPredicate)
-				.excludeField(updatedAtPredicate)
-				.excludeField(idPredicate)
-				.randomize(isDeletedPredicate, () -> false)
-				.randomize(Long.class, () -> new Random().nextLong(1, puppySize + 1));
+			.seed(seed)
+			.stringLengthRange(11, 11)
+			.excludeField(createdAtPredicate)
+			.excludeField(updatedAtPredicate)
+			.excludeField(idPredicate)
+			.randomize(isDeletedPredicate, () -> false)
+			.randomize(Long.class, () -> new Random().nextLong(1, puppySize + 1));
 
 		return new EasyRandom(params).nextObject(Likes.class);
 	}

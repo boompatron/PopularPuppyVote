@@ -29,10 +29,12 @@ public class LikesController {
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public ResponseEntity<LikesRegisterResponse> registerLikes(HttpSession httpSession,
-			@RequestBody LikesRegisterRequest request) {
+		@RequestBody Long puppyId) {
 		if (httpSession.getAttribute("like") == null) {
 			httpSession.setAttribute("like", httpSession.getId());
-			return new ResponseEntity<>(likesService.registerLikes(request), HttpStatus.CREATED);
+			return new ResponseEntity<>(
+				likesService.registerLikes(new LikesRegisterRequest(puppyId, httpSession.getId())),
+				HttpStatus.CREATED);
 		}
 		return ResponseEntity.badRequest().build();
 	}
@@ -47,7 +49,7 @@ public class LikesController {
 	@GetMapping("/{puppyId}")
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<LikesCountGetResponse> getLikesByPuppyId(
-			@PathVariable Long puppyId
+		@PathVariable Long puppyId
 	) {
 		return new ResponseEntity<>(likesService.getLikesByPuppyId(puppyId), HttpStatus.OK);
 	}
