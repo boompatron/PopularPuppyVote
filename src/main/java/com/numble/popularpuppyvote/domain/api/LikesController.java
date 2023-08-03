@@ -28,10 +28,10 @@ public class LikesController {
 
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public ResponseEntity<LikesRegisterResponse> registerLikes(HttpSession httpSession,
-		@RequestBody Long puppyId) {
-		if (httpSession.getAttribute("like") == null) {
-			httpSession.setAttribute("like", httpSession.getId());
+	public ResponseEntity<LikesRegisterResponse> registerLikes(
+		@RequestBody Long puppyId, HttpSession httpSession) {
+		if (httpSession.getAttribute(puppyId.toString()) == null) {
+			httpSession.setAttribute(puppyId.toString(), puppyId.toString() + " already voted with this session");
 			return new ResponseEntity<>(
 				likesService.registerLikes(new LikesRegisterRequest(puppyId, httpSession.getId())),
 				HttpStatus.CREATED);
