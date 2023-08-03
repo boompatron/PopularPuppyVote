@@ -9,9 +9,11 @@ import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 @EnableCaching
 @Configuration
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 86400) // 하루
 public class RedisCacheConfig {
 	@Bean
     public RedisCacheConfiguration redisCacheConfiguration() {
