@@ -45,13 +45,13 @@ public class PuppyController {
 
 	@GetMapping("/{puppyId}")
 	@ResponseStatus(code = HttpStatus.OK)
-	public ResponseEntity<PuppyGetResponse> getOnePuppyWithRedis(
+	public ResponseEntity<PuppyGetResponse> getOnePuppy(
 			@PathVariable Long puppyId// , HttpSession session
 	) {
 		return ResponseEntity.ok(puppyReadService.getOnePuppy(puppyId));
 	}
 
-	@GetMapping
+	@GetMapping("/many")
 	@ResponseStatus(code = HttpStatus.OK)
 	public ResponseEntity<PuppyListGetResponse> getPuppies(
 			@Valid PuppyListGetRequest request
@@ -59,12 +59,12 @@ public class PuppyController {
 		return ResponseEntity.ok(puppyReadService.getPuppies(request));
 	}
 
-	@GetMapping("/enhanced")
+	@GetMapping("/many/condition")
 	@ResponseStatus(code = HttpStatus.OK)
-	public ResponseEntity<PuppyListGetResponse> enhancedGetPuppies(
+	public ResponseEntity<PuppyListGetResponse> getManyPuppiesWithCondition(
 			@Valid EnhancedPuppyListGetRequest request
 	) {
-		return ResponseEntity.ok(puppyReadService.getPuppiesWithSortingAndFiltering(request));
+		return ResponseEntity.ok(puppyReadService.getManyPuppiesWithCondition(request));
 	}
 
 	@PatchMapping

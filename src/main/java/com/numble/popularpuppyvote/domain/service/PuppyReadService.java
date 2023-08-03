@@ -55,7 +55,7 @@ public class PuppyReadService {
 	}
 
 	@Transactional(readOnly = true)
-	public PuppyListGetResponse getPuppiesWithSortingAndFiltering(EnhancedPuppyListGetRequest request) {
+	public PuppyListGetResponse getManyPuppiesWithCondition(EnhancedPuppyListGetRequest request) {
 		List<Puppy> puppies = puppyRepository.findPuppies(
 				request.cursorId(), request.pageSize(),
 				request.species(), request.sizes(),
