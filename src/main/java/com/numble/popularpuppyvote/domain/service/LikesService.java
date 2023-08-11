@@ -9,6 +9,8 @@ import java.util.Objects;
 
 import javax.persistence.EntityNotFoundException;
 
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,10 +29,18 @@ import lombok.extern.slf4j.Slf4j;
 public class LikesService {
 
 	private final LikesRepository likesRepository;
+	private final StringRedisTemplate redisTemplate;
+
+	private static final String RANKING_KEY = "likeRanking";
 
 	@Transactional
 	public LikesRegisterResponse registerLikes(LikesRegisterRequest request) {
-		return toLikesRegisterResponse(likesRepository.save(toLikes(request)));
+		LikesRegisterResponse likesRegisterResponse = toLikesRegisterResponse(likesRepository.save(toLikes(request)));
+		ZSetOperations<String, String> zSet = redisTemplate.opsForZSet();
+
+		zSet.incrementScore(RANKING_KEY, likesRegisterResponse.id().toString(), 1);
+
+		return likesRegisterResponse;
 	}
 
 	@Transactional

@@ -39,7 +39,9 @@ public class PuppyReadService {
 		if (ops.get(key) != null) {
 			return ops.get(key);
 		} else {
+
 			PuppyGetResponse dto = toPuppyGetResponse(getEntity(puppyId));
+
 			ops.set(key, dto);
 			return dto;
 		}
@@ -64,6 +66,12 @@ public class PuppyReadService {
 
 		return toPuppiesGetResponse(puppies, lastId);
 	}
+
+
+	// @Transactional
+	// public List<PuppyGetResponse> getTopPuppies() {
+	//
+	// }
 
 	private Puppy getEntity(Long id) {
 		return puppyRepository.findById(id)
