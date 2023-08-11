@@ -23,4 +23,6 @@ public interface LikesRepository extends JpaRepository<Likes, Long> {
 
 	@Query("SELECT COUNT(*) FROM Likes as l WHERE l.puppyId = :puppyId")
 	int getLikesByPuppyId(Long puppyId);
+
+	Likes findBySessionIdAndPuppyId(String sessionId, Long puppyId);
 }

@@ -26,25 +26,24 @@ public class Likes extends BaseTimeEntity {
 	private Long id;
 
 	private Long puppyId;
-
 	private Boolean isDeleted;
-	// private String sessionId;
+	private String sessionId;
 
 	@Builder
-	public Likes(Long id, Long puppyId) {
+	public Likes(Long id, Long puppyId, String sessionId) {
 		this.id = id;
 		this.puppyId = puppyId;
 		this.isDeleted = false;
-		// this.sessionId = sessionId;
+		this.sessionId = sessionId;
 	}
 
-	public Likes(Long id, Long puppyId, Boolean isDeleted, LocalDateTime createdAt, LocalDateTime updatedAt) {
+	public Likes(Long id, Long puppyId, Boolean isDeleted, LocalDateTime createdAt, LocalDateTime updatedAt, String sessionId) {
 		this.id = id;
 		this.puppyId = puppyId;
 		this.isDeleted = isDeleted;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
-		// this.sessionId = sessionId;
+		this.sessionId = sessionId;
 	}
 
 	public void delete() {
@@ -53,6 +52,6 @@ public class Likes extends BaseTimeEntity {
 
 	@Override
 	public String toString() {
-		return "ID : " + this.id + ", puppyId : " + puppyId + ", isDeleted : " + isDeleted;//  + ", session Id : " + sessionId;
+		return "ID : " + this.id + ", puppyId : " + puppyId + ", isDeleted : " + isDeleted + ", session Id : " + sessionId;
 	}
 }

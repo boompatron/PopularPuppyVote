@@ -6,10 +6,11 @@ import com.numble.popularpuppyvote.domain.model.Likes;
 
 public class LikesMapper {
 
-	public static Likes toLikes(LikesRegisterRequest request){
+	public static Likes toLikes(LikesRegisterRequest request) {
 		return Likes.builder()
-				.puppyId(request.puppyId())
-				.build();
+			.puppyId(request.puppyId())
+			.sessionId(request.sessionId())
+			.build();
 	}
 
 	public static LikesRegisterResponse toLikesRegisterResponse(Likes likes) {

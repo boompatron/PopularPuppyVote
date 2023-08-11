@@ -29,25 +29,27 @@ public class LikesController {
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public ResponseEntity<LikesRegisterResponse> registerLikes(HttpSession httpSession,
-			@RequestBody LikesRegisterRequest request) {
-		if (httpSession.getAttribute("like") == null) {
-			httpSession.setAttribute("like", httpSession.getId());
-			return new ResponseEntity<>(likesService.registerLikes(request), HttpStatus.CREATED);
+		@RequestBody Long puppyId) {
+		if (httpSession.getAttribute(puppyId.toString()) == null) {
+			httpSession.setAttribute(puppyId.toString(), puppyId + " already voted with this session");
+			return new ResponseEntity<>(
+				likesService.registerLikes(new LikesRegisterRequest(puppyId, httpSession.getId())),
+				HttpStatus.CREATED);
 		}
 		return ResponseEntity.badRequest().build();
 	}
 
-	@PatchMapping("/{likesId}")
+	@PatchMapping("/{puppyId}")
 	@ResponseStatus(code = HttpStatus.OK)
-	public ResponseEntity<Void> deleteLikes(@PathVariable Long likesId) {
-		likesService.deleteLikes(likesId);
+	public ResponseEntity<Void> deleteLikes(HttpSession httpSession, @PathVariable Long puppyId) {
+		likesService.deleteLikes(httpSession.getId(), puppyId);
 		return ResponseEntity.ok().build();
 	}
 
 	@GetMapping("/{puppyId}")
 	@ResponseStatus(HttpStatus.OK)
 	public ResponseEntity<LikesCountGetResponse> getLikesByPuppyId(
-			@PathVariable Long puppyId
+		@PathVariable Long puppyId
 	) {
 		return new ResponseEntity<>(likesService.getLikesByPuppyId(puppyId), HttpStatus.OK);
 	}
