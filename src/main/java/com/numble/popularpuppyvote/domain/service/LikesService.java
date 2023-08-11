@@ -50,6 +50,5 @@ public class LikesService {
 		if (Objects.isNull(entity))
 			throw new EntityNotFoundException(String.format(ENTITY_NOT_FOUND.name(), PUPPY.name()));
 		return entity;
-		//.orElseThrow(() -> new EntityNotFoundException(String.format(ENTITY_NOT_FOUND.name(), PUPPY.name())));
 	}
 }
