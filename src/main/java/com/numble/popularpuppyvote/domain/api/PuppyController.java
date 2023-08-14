@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.numble.popularpuppyvote.domain.dto.request.EnhancedPuppyListGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyCreateRequest;
-import com.numble.popularpuppyvote.domain.dto.request.PuppyListGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyRankingGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyUpdateRequest;
 import com.numble.popularpuppyvote.domain.dto.response.PuppyCreateResponse;
@@ -54,13 +53,6 @@ public class PuppyController {
 		return ResponseEntity.ok(puppyReadService.getOnePuppy(puppyId));
 	}
 
-	@GetMapping("/many")
-	@ResponseStatus(code = HttpStatus.OK)
-	public ResponseEntity<PuppyListGetResponse> getPuppies(
-			@Valid PuppyListGetRequest request
-	) {
-		return ResponseEntity.ok(puppyReadService.getPuppies(request));
-	}
 
 	@GetMapping("/many/condition")
 	@ResponseStatus(code = HttpStatus.OK)

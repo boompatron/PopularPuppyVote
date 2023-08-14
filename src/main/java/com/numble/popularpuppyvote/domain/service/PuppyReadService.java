@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.numble.popularpuppyvote.common.mapper.PuppyMapper;
 import com.numble.popularpuppyvote.domain.dto.request.EnhancedPuppyListGetRequest;
-import com.numble.popularpuppyvote.domain.dto.request.PuppyListGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyRankingGetRequest;
 import com.numble.popularpuppyvote.domain.dto.response.PuppyGetResponse;
 import com.numble.popularpuppyvote.domain.dto.response.PuppyListGetResponse;
@@ -50,21 +49,10 @@ public class PuppyReadService {
 		if (ops.get(key) != null) {
 			return ops.get(key);
 		} else {
-
 			PuppyGetResponse dto = toPuppyGetResponse(getEntity(puppyId));
-
 			ops.set(key, dto);
 			return dto;
 		}
-	}
-
-	@Transactional(readOnly = true)
-	public PuppyListGetResponse getPuppies(PuppyListGetRequest request) {
-
-		List<Puppy> puppies = puppyRepository.findPuppies(request.cursorId(), request.pageSize());
-		long lastId = puppies.size() > 0 ? puppies.get(puppies.size() - 1).getId() : -1L;
-
-		return toPuppiesGetResponse(puppies, lastId);
 	}
 
 	@Transactional(readOnly = true)
