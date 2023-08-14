@@ -56,4 +56,5 @@ public class PuppyServiceTest {
 			assertThat(response.id()).isEqualTo(1L);
 		}
 	}
+
 }

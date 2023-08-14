@@ -21,6 +21,8 @@ public interface PuppyRepository extends JpaRepository<Puppy, Long>, PuppyCustom
 	@Query("SELECT DISTINCT p.id FROM Puppy as p GROUP BY p.id")
 	List<Long> getAllIdsDistinctGroupBy();
 
+	// List<Puppy> getPuppyByIdIn(List<Long> ids);
+
 	@Modifying
 	@Query("UPDATE Puppy as p SET p.likeCount = :likeCount WHERE p.id = :puppyId")
 	int updateLikeCountById(Long puppyId, Integer likeCount);
