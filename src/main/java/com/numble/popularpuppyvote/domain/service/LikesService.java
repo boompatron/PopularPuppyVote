@@ -30,16 +30,14 @@ public class LikesService {
 
 	private final LikesRepository likesRepository;
 	private final StringRedisTemplate redisTemplate;
-
-	private static final String RANKING_KEY = "likeRanking";
+	private static final String RANKING_KEY = "LIKE_RANKING";
 
 	@Transactional
 	public LikesRegisterResponse registerLikes(LikesRegisterRequest request) {
 		LikesRegisterResponse likesRegisterResponse = toLikesRegisterResponse(likesRepository.save(toLikes(request)));
 		ZSetOperations<String, String> zSet = redisTemplate.opsForZSet();
 
-		zSet.incrementScore(RANKING_KEY, likesRegisterResponse.id().toString(), 1);
-
+		zSet.incrementScore(RANKING_KEY, request.puppyId().toString(), 1);
 		return likesRegisterResponse;
 	}
 
