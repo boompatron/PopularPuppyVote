@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.numble.popularpuppyvote.domain.dto.request.EnhancedPuppyListGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyCreateRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyListGetRequest;
+import com.numble.popularpuppyvote.domain.dto.request.PuppyRankingGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyUpdateRequest;
 import com.numble.popularpuppyvote.domain.dto.response.PuppyCreateResponse;
 import com.numble.popularpuppyvote.domain.dto.response.PuppyGetResponse;
@@ -26,7 +27,9 @@ import com.numble.popularpuppyvote.domain.service.PuppyReadService;
 import com.numble.popularpuppyvote.domain.service.PuppyService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/puppies")
 @RequiredArgsConstructor
@@ -66,6 +69,13 @@ public class PuppyController {
 	) {
 		return ResponseEntity.ok(puppyReadService.getManyPuppiesWithCondition(request));
 	}
+
+	@GetMapping("/ranking")
+	@ResponseStatus(code = HttpStatus.OK)
+	public ResponseEntity<PuppyListGetResponse> checkSortedSet(PuppyRankingGetRequest request) {
+		return ResponseEntity.ok(puppyReadService.getPuppiesByRanking(request));
+	}
+
 
 	@PatchMapping
 	@ResponseStatus(code = HttpStatus.OK)

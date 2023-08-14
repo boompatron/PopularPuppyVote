@@ -83,6 +83,26 @@ public class PuppyCustomRepositoryImpl implements PuppyCustomRepository {
 				.fetch();
 	}
 
+	@Override
+	public List<Puppy> findPuppiesByIds(List<Long> ids) {
+		return jpaQueryFactory
+			.selectFrom(qPuppy)
+			.where(
+				qPuppy.id.in(ids)
+			)
+			.fetch();
+	}
+
+	@Override
+	public Puppy findByIdCustom(Long id) {
+		return jpaQueryFactory
+			.selectFrom(qPuppy)
+			.where(
+				qPuppy.id.eq(id)
+			)
+			.fetchFirst();
+	}
+
 	private BooleanExpression gtPuppyId(Long cursorId) {
 		return (cursorId != null) ? qPuppy.id.gt(cursorId) : null;
 	}
