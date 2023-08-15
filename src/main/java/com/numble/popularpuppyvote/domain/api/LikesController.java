@@ -18,16 +18,20 @@ import com.numble.popularpuppyvote.domain.dto.response.LikesCountGetResponse;
 import com.numble.popularpuppyvote.domain.dto.response.LikesRegisterResponse;
 import com.numble.popularpuppyvote.domain.service.LikesService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/v1/likes")
 @RequiredArgsConstructor
+@Tag(name = "좋아요 API")
 public class LikesController {
 	private final LikesService likesService;
 
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
+	@Operation(summary = "좋아요 등록")
 	public ResponseEntity<LikesRegisterResponse> registerLikes(HttpSession httpSession,
 		@RequestBody Long puppyId) {
 		if (httpSession.getAttribute(puppyId.toString()) == null) {
@@ -41,6 +45,7 @@ public class LikesController {
 
 	@PatchMapping("/{puppyId}")
 	@ResponseStatus(code = HttpStatus.OK)
+	@Operation(summary = "좋아요 삭제")
 	public ResponseEntity<Void> deleteLikes(HttpSession httpSession, @PathVariable Long puppyId) {
 		likesService.deleteLikes(httpSession.getId(), puppyId);
 		return ResponseEntity.ok().build();
@@ -48,6 +53,7 @@ public class LikesController {
 
 	@GetMapping("/{puppyId}")
 	@ResponseStatus(HttpStatus.OK)
+	@Operation(summary = "좋아요 조회")
 	public ResponseEntity<LikesCountGetResponse> getLikesByPuppyId(
 		@PathVariable Long puppyId
 	) {

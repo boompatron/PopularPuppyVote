@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.numble.popularpuppyvote.domain.dto.request.EnhancedPuppyListGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyCreateRequest;
-import com.numble.popularpuppyvote.domain.dto.request.PuppyListGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyRankingGetRequest;
 import com.numble.popularpuppyvote.domain.dto.request.PuppyUpdateRequest;
 import com.numble.popularpuppyvote.domain.dto.response.PuppyCreateResponse;
@@ -26,6 +25,8 @@ import com.numble.popularpuppyvote.domain.dto.response.PuppyUpdateResponse;
 import com.numble.popularpuppyvote.domain.service.PuppyReadService;
 import com.numble.popularpuppyvote.domain.service.PuppyService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/api/v1/puppies")
 @RequiredArgsConstructor
+@Tag(name = "강아지 API")
 public class PuppyController {
 
 	private final PuppyService puppyService;
@@ -40,6 +42,7 @@ public class PuppyController {
 
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
+	@Operation(summary = "강아지 등록")
 	public ResponseEntity<PuppyCreateResponse> registerPuppy(
 			@RequestBody @Valid PuppyCreateRequest request
 	) {
@@ -48,22 +51,17 @@ public class PuppyController {
 
 	@GetMapping("/{puppyId}")
 	@ResponseStatus(code = HttpStatus.OK)
+	@Operation(summary = "강아지 단일 조회")
 	public ResponseEntity<PuppyGetResponse> getOnePuppy(
 			@PathVariable Long puppyId// , HttpSession session
 	) {
 		return ResponseEntity.ok(puppyReadService.getOnePuppy(puppyId));
 	}
 
-	@GetMapping("/many")
-	@ResponseStatus(code = HttpStatus.OK)
-	public ResponseEntity<PuppyListGetResponse> getPuppies(
-			@Valid PuppyListGetRequest request
-	) {
-		return ResponseEntity.ok(puppyReadService.getPuppies(request));
-	}
 
 	@GetMapping("/many/condition")
 	@ResponseStatus(code = HttpStatus.OK)
+	@Operation(summary = "강아지 목록 조회 (정렬, 필터링 기능 포함)")
 	public ResponseEntity<PuppyListGetResponse> getManyPuppiesWithCondition(
 			@Valid EnhancedPuppyListGetRequest request
 	) {
@@ -72,6 +70,7 @@ public class PuppyController {
 
 	@GetMapping("/ranking")
 	@ResponseStatus(code = HttpStatus.OK)
+	@Operation(summary = "강아지 목록 조회 (특정 순위 범위 이내 강아지 목록 조회)")
 	public ResponseEntity<PuppyListGetResponse> checkSortedSet(PuppyRankingGetRequest request) {
 		return ResponseEntity.ok(puppyReadService.getPuppiesByRanking(request));
 	}
@@ -79,6 +78,7 @@ public class PuppyController {
 
 	@PatchMapping
 	@ResponseStatus(code = HttpStatus.OK)
+	@Operation(summary = "강아지 정보 수정")
 	public ResponseEntity<PuppyUpdateResponse> updatePuppy(
 			@RequestBody PuppyUpdateRequest request
 	){
@@ -87,6 +87,7 @@ public class PuppyController {
 
 	@DeleteMapping("/{puppyId}")
 	@ResponseStatus(code = HttpStatus.OK)
+	@Operation(summary = "강아지 삭제")
 	public ResponseEntity<Void> deletePuppy(
 			@PathVariable Long puppyId
 	) {
