@@ -3,25 +3,24 @@ package com.numble.popularpuppyvote.domain.dto.request;
 import com.numble.popularpuppyvote.domain.model.Size;
 import com.numble.popularpuppyvote.domain.model.Species;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-@ApiModel("강아지 등록 요청")
+@Schema(name = "강아지 등록 요청")
 public record PuppyCreateRequest(
 
-	@ApiModelProperty(value = "강아지 이름", required = true, example = "코코")
+	@Schema(description = "강아지 이름", example = "코코", requiredMode = Schema.RequiredMode.REQUIRED)
 	String name,
 
-	@ApiModelProperty(value = "강아지 사진 주소", required = true, example = "image@dkjfslkfj.com")
+	@Schema(description = "강아지 사진 주소", example = "coco.com", requiredMode = Schema.RequiredMode.REQUIRED)
 	String imageUrl,
 
-	@ApiModelProperty(value = "강아지 상세 정보", required = true, example = "귀여운건 코코, 코코는 귀여워!")
+	@Schema(description = "강아지 상세 정보", example = "귀여운건 코코, 코코는 귀여워!", requiredMode = Schema.RequiredMode.REQUIRED)
 	String description,
 
-	@ApiModelProperty(value = "강아지 종", required = true, example = "WELSH_CORGI")
+	@Schema(description = "강아지 종", example = "WELSH_CORGI", requiredMode = Schema.RequiredMode.REQUIRED)
 	Species species,
 
-	@ApiModelProperty(value = "강아지 크기", required = true, example = "MEDIUM")
+	@Schema(description = "강아지 크기", example = "MEDIUM", requiredMode = Schema.RequiredMode.REQUIRED)
 	Size size
 ) {
 
